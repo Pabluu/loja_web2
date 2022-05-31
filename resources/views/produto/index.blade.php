@@ -7,11 +7,11 @@
 	<form action="/produto" method="POST" class="row" onsubmit="carregaDados();">
 		<div class="form-group col-5">
 			<label for="descricao">Descrição</label>
-			<input type="text" name="descricao" class="form-control" value="{{ $produto->descricao }}" />
+			<input type="text" maxlength='100' name="descricao" class="form-control" value="{{ $produto->descricao }}" />
 		</div>
 		<div class="form-group col-5">
 			<label for="preco">Preço</label>
-			<input type="text" id="preco_mask" name="preco_mask" class="form-control" 
+			<input type="text" id="preco_mask" maxlength="11" name="preco_mask" class="form-control" 
 			value="@if($produto->preco != 0)
 			{{number_format($produto->preco, 2, ',', '.')}}
 			@endif" />
@@ -58,7 +58,7 @@
 			@foreach ($produtos as $produto)
 				<tr>
 					<td class="td_descricao">{{ $produto->descricao }}</td>
-					<td class="td_preco">{{str_replace(".", ",", number_format($produto->preco, 2, ',', '.'))}}</td>
+					<td class="td_preco">R${{number_format($produto->preco, '2', ',', '.')}}</td>
 					<td>
 						<a href="/produto/{{ $produto->id }}/edit" class="btn btn-warning">
 							<i class="bi bi-pencil-square"></i>
@@ -109,7 +109,7 @@
 	}
 	
 	function carregaDados() {
-		$("#preco").val($("#preco_mask").cleanVal() / 100);
+		$("#preco").val($("#preco_mask").cleanVal()/100);
 		console.log($('#preco').val());
 	}
 	
@@ -117,7 +117,7 @@
 	
 		$("#preco_mask").mask("#.#00,00", { "placeholder": "R$__,__", reverse:true});
 		
-		$(".td_preco").mask("#.#00,00");
+		// $(".td_preco").mask("#.#00,00", {reverse:true}); //NÃO ESTÁ FUNCIONANDO
 		
 	});
 </script>
