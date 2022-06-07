@@ -10,7 +10,7 @@
     </div>
 
     <div class="col-2 form-group">
-        <a href="/index" class="btn btn-primary" style='float: right'>
+        <a href="/venda/create" class="btn btn-primary" style='float: right'>
             <i class="bi bi-plus-square">Nova Venda</i>
         </a>
     </div>
@@ -46,7 +46,11 @@
             <td>{{$venda->data}}</td>
             <td>{{$venda->cliente}}</td>
             <td class='td_preco'>{{number_format($venda->total, 2)}}</td>
-            <td></td>
+            <td>
+                <a href="/venda/{{$venda->id}}/edit" class='btn btn-warning'>
+                    <i class="bi bi-pencil-square"></i>  Editar
+                </a>
+            </td>
             <td></td>
         </tr>
         @endforeach

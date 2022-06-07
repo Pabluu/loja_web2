@@ -37,12 +37,13 @@ class VendaController extends Controller
     public function create()
     {
         $venda = new Venda();
-        $cliente = Cliente::All();
+        $clientes = Cliente::All();
         $itens = [];
 
         return view('venda.index',[
             'venda' => $venda,
-            'cliente' => $itens
+            'clientes' => $clientes,
+            'itens' => $itens
         ]);
     }
 
@@ -54,7 +55,19 @@ class VendaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request->get('id') != ''){
+            $venda = Venda::Find($request->get('id'));
+        }else{
+            $venda = new Venda();
+        }
+
+        $venda->cliente_id = $request->get('cliente_id');
+        $venda->total = 0;
+        
+        $venda->save();
+        $request->session()->flash('status', 'salvo');
+
+        return redirect('/venda/' . $venda->id . '/edit');
     }
 
     /**
@@ -76,7 +89,15 @@ class VendaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $venda = Venda::Find($id);
+        $clientes = Cliente::All();
+        $itens = [];
+
+        return view('venda.index',[
+            'venda' => $venda,
+            'clientes' => $clientes,
+            'itens' => $itens
+        ]);
     }
 
     /**
